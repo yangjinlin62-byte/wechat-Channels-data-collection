@@ -1,0 +1,3 @@
+display_name: WeChat Channels Native Pipeline
+short_description: Collect, decrypt, transcribe, and export WeChat Channels xlsx
+default_prompt: 采集一个微信视频号账号，自动完成下载、解密、转写和最终 xlsx 导出。
