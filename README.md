@@ -103,7 +103,9 @@ https://www.worldtreetech.cn/
 https://www.worldtreetech.cn/api-docs
 ```
 
-注册后，将自己的 API Key 配置到本机环境变量：
+推荐方式：运行安装脚本时按提示粘贴 API Key，脚本会自动保存到用户环境变量。
+
+手动方式：
 
 ```powershell
 [Environment]::SetEnvironmentVariable("WORLDTREE_API_KEY", "你的API Key", "User")
@@ -117,9 +119,9 @@ $env:WORLDTREE_API_KEY
 
 不要把真实 API Key 提交到 GitHub。
 
-## 安装技能
+## 安装与首次初始化
 
-先克隆仓库：
+### Codex 安装
 
 ```powershell
 git clone https://github.com/yangjinlin62-byte/wechat-Channels-data-collection.git
@@ -133,19 +135,44 @@ New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\skills" | Out
 Copy-Item -Recurse -Force ".\skills\wechat-channels-native-pipeline" "$env:USERPROFILE\.codex\skills\wechat-channels-native-pipeline"
 ```
 
-运行安装脚本：
+### WorkBuddy 安装
+
+如果是 WorkBuddy 下载技能，技能目录通常是：
+
+```text
+%USERPROFILE%\.workbuddy\skills\wechat-channels-native-pipeline
+```
+
+### 一键初始化环境
+
+技能下载或复制完成后，直接运行安装脚本。安装脚本会自动完成环境初始化，然后提示用户提供 WorldTreeTech API Key。
+
+Codex：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.codex\skills\wechat-channels-native-pipeline\scripts\install.ps1"
 ```
 
-安装脚本会：
+WorkBuddy：
 
-- 创建本地 Python 虚拟环境。
+```powershell
+powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.workbuddy\skills\wechat-channels-native-pipeline\scripts\install.ps1"
+```
+
+安装脚本会自动：
+
+- 识别当前技能安装在 `.codex` 还是 `.workbuddy`。
+- 创建对应的本地工具目录和 Python 虚拟环境。
 - 安装 `openpyxl` 和 `requests`。
 - 克隆并安装视频号解密服务依赖。
 - 检查或配置 `ffmpeg`。
-- 提醒用户自行配置 WorldTreeTech API Key。
+- 询问用户提供 WorldTreeTech API Key，并保存到用户环境变量。
+
+也可以非交互传入 API Key：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.workbuddy\skills\wechat-channels-native-pipeline\scripts\install.ps1" -ApiKey "你的API Key"
+```
 
 ## 自检
 

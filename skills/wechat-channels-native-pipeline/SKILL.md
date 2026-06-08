@@ -18,25 +18,35 @@ Use this skill for Windows-only WeChat Channels account collection workflows tha
 
 This skill is intentionally independent from `wechat-video-account-collector`. Do not edit or rely on that older skill when using this one.
 
-## Setup
+## First-Time Setup
 
-Run the installer once:
+When this skill has just been downloaded or `--doctor` reports missing dependencies, run the installer first. The installer must initialize the environment and then ask the user for a WorldTreeTech API key.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File "C:\Users\10725\.codex\skills\wechat-channels-native-pipeline\scripts\install.ps1"
 ```
 
-The installer creates a local Python environment, installs Python dependencies, installs the Evil0ctal decrypt service repo under `%USERPROFILE%\.codex\tools\wechat-channels-native-pipeline`, and checks `ffmpeg`.
-
-WorldTreeTech API keys are not bundled. Register at https://www.worldtreetech.cn/ and set:
+For WorkBuddy installs, use the same script under `.workbuddy`:
 
 ```powershell
-[Environment]::SetEnvironmentVariable("WORLDTREE_API_KEY", "用户自己的API Key", "User")
+powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.workbuddy\skills\wechat-channels-native-pipeline\scripts\install.ps1"
 ```
+
+The installer detects whether the skill is under `.codex` or `.workbuddy`, creates the matching tools directory, installs Python dependencies, installs the decrypt service dependency, checks `ffmpeg`, and prompts for the API key.
+
+WorldTreeTech API keys are not bundled. The installer shows https://www.worldtreetech.cn/ and asks the user to paste their own key. For non-interactive setup, pass:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.workbuddy\skills\wechat-channels-native-pipeline\scripts\install.ps1" -ApiKey "用户自己的API Key"
+```
+
+Never hardcode or commit real API keys.
 
 ## Default Workflow
 
 When the user asks to collect an account with this skill, run the full pipeline unless they explicitly request a partial step:
+
+If `WORLDTREE_API_KEY` or the native tools environment is missing, run `scripts/install.ps1` first and let it ask the user for the API key.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File "C:\Users\10725\.codex\skills\wechat-channels-native-pipeline\scripts\wechat-channels.ps1" --full-pipeline --account "账号名称" --output-dir "F:\视频号数据采集"

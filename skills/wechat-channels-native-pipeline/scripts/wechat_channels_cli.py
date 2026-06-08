@@ -30,7 +30,10 @@ SEARCH_URL = f"{BASE_URL}/api/v2/wechat/video/search"
 USER_INFO_URL = f"{BASE_URL}/api/v2/wechat/video/getUserInfo"
 BALANCE_URL = f"{BASE_URL}/api/v2/user/balance"
 DECRYPT_REPO_URL = "https://github.com/Evil0ctal/WeChat-Channels-Video-File-Decryption.git"
-DEFAULT_TOOLS_DIR = Path.home() / ".codex" / "tools" / "wechat-channels-native-pipeline"
+DEFAULT_TOOLS_DIR = Path(
+    os.environ.get("WECHAT_CHANNELS_NATIVE_TOOLS_DIR")
+    or Path.home() / ".codex" / "tools" / "wechat-channels-native-pipeline"
+)
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
@@ -344,11 +347,13 @@ def download_from_workbook(workbook_path: Path, videos_dir: Path | None = None) 
 
 
 def ensure_git_repo(repo_dir: Path) -> None:
+    if (repo_dir / "api-service" / "package.json").exists():
+        return
     if (repo_dir / ".git").exists():
         return
     git = shutil.which("git")
     if not git:
-        raise SystemExit("git is required to auto-install the WeChat video decryption tool.")
+        raise SystemExit("git is required to auto-install the WeChat video decryption tool. Run scripts\\install.ps1 first.")
     repo_dir.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run([git, "clone", "--depth", "1", DECRYPT_REPO_URL, str(repo_dir)], check=True)
 
