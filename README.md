@@ -117,7 +117,6 @@ https://www.worldtreetech.cn/api-docs
 $env:WORLDTREE_API_KEY
 ```
 
-不要把真实 API Key 提交到 GitHub。
 
 ## 安装与首次初始化
 
@@ -259,8 +258,7 @@ powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.codex\skills\wechat-
 
 ## ASR 转写说明
 
-本技能不依赖 AsrTools 本体。  
-它内置了轻量 ASR 适配器：
+本技能内置了轻量 ASR 适配器：
 
 | 引擎 | 用途 |
 | --- | --- |
@@ -303,10 +301,6 @@ https://github.com/Evil0ctal/WeChat-Channels-Video-File-Decryption
 ### 仓库里为什么没有 API Key？
 
 API Key 属于个人敏感信息，不能提交到公开仓库。请用户自行注册 WorldTreeTech 后配置本机环境变量。
-
-### 为什么不直接打包 AsrTools？
-
-AsrTools 是本地 GUI 软件，不适合直接作为 Skill 的硬依赖。这个技能把可用转写逻辑抽成了内置模块，便于 Codex、WorkBuddy 等智能体一条命令安装和调用。
 
 ### 为什么默认并发是 2？
 
